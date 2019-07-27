@@ -59,6 +59,7 @@ CREATE TABLE kol_user_task
 	status int(5) NOT NULL COMMENT '状态(领取 1002 , 完成 1020 )',
 	task_end_time datetime NOT NULL COMMENT '任务结束时间',
 	task_start_time datetime NOT NULL COMMENT '任务开始时间',
+	is_settlement_money int(5) NOT NULL COMMENT '是否结算(2111 -正常结算,2112 -异常(正常结算) 2113-不结算,2114 -完成)',
 	create_time datetime NOT NULL COMMENT '创建时间',
 	update_time datetime NOT NULL COMMENT '修改时间',
 	remarks varchar(255) COMMENT '备注',
