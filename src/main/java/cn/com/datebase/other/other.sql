@@ -14,7 +14,9 @@ CREATE TABLE video_zan
 (
 	video_id  int NOT NULL COMMENT '小院视频ID',
 	member_id int NOT NULL COMMENT '用户ID',
-	state int NOT NULL COMMENT '状态'
+	state int NOT NULL COMMENT '状态',
+	create_time date NOT NULL COMMENT '创建时间',
+	update_time date NOT NULL COMMENT '修改时间'
 ) COMMENT = 'video_zan';
 
 
