@@ -12,11 +12,7 @@
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
 	<x>0</x>
-<<<<<<< HEAD
-	<y>0</y>
-=======
 	<y>1170</y>
->>>>>>> branch 'master' of git@github.com:wtcharm/database.git
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -139,11 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2019-07-03 16:33:03</creation_date>
-<<<<<<< HEAD
-			<updated_date>2019-07-14 19:01:40</updated_date>
-=======
 			<updated_date>2019-07-18 09:44:12</updated_date>
->>>>>>> branch 'master' of git@github.com:wtcharm/database.git
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
