@@ -2,9 +2,25 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 
 /* Drop Tables */
 
+DROP TABLE IF EXISTS app_quick_base;
 DROP TABLE IF EXISTS record_history;
 
+
+
+
 /* Create Tables */
+
+-- 快速任务返回
+CREATE TABLE app_quick_base
+(
+	id varchar(50) NOT NULL COMMENT '主键',
+	app_click_num varchar(20) NOT NULL COMMENT '任务表',
+	app_click_id int(11) NOT NULL COMMENT '任务表Id',
+	idfa varchar(100) NOT NULL COMMENT 'idfa',
+	crate_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (id)
+) COMMENT = '快速任务返回';
+
 
 -- 记录访问历史
 CREATE TABLE record_history
