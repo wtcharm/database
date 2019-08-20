@@ -2,6 +2,7 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 
 /* Drop Tables */
 
+DROP TABLE IF EXISTS kol_task_flow_history;
 DROP TABLE IF EXISTS kol_user;
 DROP TABLE IF EXISTS kol_user_message;
 DROP TABLE IF EXISTS kol_user_task;
@@ -11,6 +12,25 @@ DROP TABLE IF EXISTS kol_user_wechat;
 
 
 /* Create Tables */
+
+-- kol用户任务结算历史
+CREATE TABLE kol_task_flow_history
+(
+	task_history_id varchar(50) NOT NULL COMMENT '任务历史',
+	kol_user_Id varchar(50) NOT NULL COMMENT '人员Id',
+	task_id varchar(50) NOT NULL COMMENT '任务Id',
+	advertiser_id varchar(50) NOT NULL COMMENT '广告商Id',
+	advertiser_name varchar(50) NOT NULL COMMENT '广告商名称',
+	advert_id varchar(50) NOT NULL COMMENT '广告Id',
+	advert_name varchar(50) NOT NULL COMMENT '广告名称',
+	task_finish_money decimal(10,4) NOT NULL COMMENT '任务的完成价格',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	update_time datetime NOT NULL COMMENT '修改时间',
+	remarks varchar(255) COMMENT '备注',
+	dr int(5) NOT NULL COMMENT '是否删除 1001 不删除，1010 删除',
+	PRIMARY KEY (task_history_id)
+) COMMENT = 'kol用户任务结算历史';
+
 
 -- kol用户表
 CREATE TABLE kol_user
