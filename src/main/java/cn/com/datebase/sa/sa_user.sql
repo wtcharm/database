@@ -2,6 +2,8 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 
 /* Drop Tables */
 
+DROP TABLE IF EXISTS app;
+DROP TABLE IF EXISTS basic_information;
 DROP TABLE IF EXISTS kol_order;
 DROP TABLE IF EXISTS sa_advert;
 DROP TABLE IF EXISTS sa_advertiser;
@@ -13,11 +15,49 @@ DROP TABLE IF EXISTS sa_restrict;
 DROP TABLE IF EXISTS sa_role;
 DROP TABLE IF EXISTS sa_task;
 DROP TABLE IF EXISTS sa_user;
+DROP TABLE IF EXISTS share_rule;
+DROP TABLE IF EXISTS user_award;
 
 
 
 
 /* Create Tables */
+
+-- 客户信息
+CREATE TABLE app
+(
+	id varchar(50) NOT NULL COMMENT '主键',
+	advert_id varchar(50) NOT NULL COMMENT '广告Id',
+	up_app_id varchar(50) NOT NULL COMMENT '上游的app_id',
+	own_app_id varchar(50) NOT NULL COMMENT '自己的appId',
+	own_proto_id varchar(50) NOT NULL COMMENT '原始Id',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	update_time datetime NOT NULL COMMENT '修改时间',
+	remarks varchar(255) COMMENT '备注',
+	dr int(5) NOT NULL COMMENT '是否删除 1001 不删除，1010 删除',
+	PRIMARY KEY (id)
+) COMMENT = '客户信息';
+
+
+-- 基本信息
+CREATE TABLE basic_information
+(
+	basic_id varchar(50) NOT NULL COMMENT '基础信息',
+	basic_start_image varchar(200) NOT NULL COMMENT '登录启动页图片',
+	basic_log_image varchar(200) NOT NULL COMMENT '默认登录页设置',
+	basic_prestrain_image varchar(500) NOT NULL COMMENT '预加载设置',
+	company_logo varchar(200) NOT NULL COMMENT '公司logo',
+	wechat_account  varchar(100) NOT NULL COMMENT '微信公众号',
+	company_introduce varchar(300) NOT NULL COMMENT '公司介绍',
+	company__address varchar(100) NOT NULL COMMENT '公司地址',
+	company_mailbox varchar(50) NOT NULL COMMENT '邮件',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	update_time datetime NOT NULL COMMENT '修改时间',
+	remarks varchar(255) COMMENT '备注',
+	dr int(5) NOT NULL COMMENT '是否删除 1001 不删除，1010 删除',
+	PRIMARY KEY (basic_id)
+) COMMENT = '基本信息';
+
 
 -- kol提现订单
 CREATE TABLE kol_order
@@ -180,7 +220,7 @@ CREATE TABLE sa_task
 	advertiser_id varchar(50) NOT NULL COMMENT '广告商Id',
 	advert_id varchar(50) NOT NULL COMMENT '广告主Id',
 	task_type int(5) NOT NULL COMMENT '任务类型(2001-小程序，2010-H5)',
-	task_priority int(5) NOT NULL COMMENT '任务优先级(2011-举荐3,2012-普通,2013-预告)',
+	task_junior_money int(5) NOT NULL COMMENT '任务最高奖励',
 	task_amount int(10) NOT NULL COMMENT '任务量(投放量)',
 	task_price decimal(10,4) NOT NULL COMMENT '任务单价',
 	tash_area varchar(50) NOT NULL COMMENT '任务投放地址',
@@ -211,6 +251,37 @@ CREATE TABLE sa_user
 	dr int(5) NOT NULL COMMENT '是否删除 1001 不删除，1010 删除',
 	PRIMARY KEY (user_id)
 ) COMMENT = '后台用户';
+
+
+-- 分享规则
+CREATE TABLE share_rule
+(
+	share_rule_id varchar(50) NOT NULL COMMENT '规则Id',
+	share_rule_content varchar(200) NOT NULL COMMENT 'share_rule_content',
+	share_rule_type int(5) NOT NULL COMMENT '类型(2001-小程序，2010-H5))',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	update_time datetime NOT NULL COMMENT '修改时间',
+	remarks varchar(255) COMMENT '备注',
+	dr int(5) NOT NULL COMMENT '是否删除 1001 不删除，1010 删除',
+	PRIMARY KEY (share_rule_id)
+) COMMENT = '分享规则';
+
+
+-- 用户奖励
+CREATE TABLE user_award
+(
+	user_award_id varchar(50) NOT NULL COMMENT '奖励主键',
+	user_register_money decimal(10,4) NOT NULL COMMENT '用户注册奖励(精确到分)',
+	user_register_status int(5) NOT NULL COMMENT '注册奖励状态(1003 -启动,1030-关闭)',
+	friend_task_money decimal(10,4) NOT NULL COMMENT '好友任务满足金额条件',
+	user_friend_money decimal(10,4) NOT NULL COMMENT '我拿到的金额',
+	user_max_money decimal(10,4) NOT NULL COMMENT '获取的最高金额',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	update_time datetime NOT NULL COMMENT '修改时间',
+	remarks varchar(255) COMMENT '备注',
+	dr int(5) NOT NULL COMMENT '是否删除 1001 不删除，1010 删除',
+	PRIMARY KEY (user_award_id)
+) COMMENT = '用户奖励';
 
 
 

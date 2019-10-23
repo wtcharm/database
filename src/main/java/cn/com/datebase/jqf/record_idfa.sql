@@ -4,6 +4,7 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS app_quick_base;
 DROP TABLE IF EXISTS record_history;
+DROP TABLE IF EXISTS sys_user_channel;
 
 
 
@@ -34,6 +35,19 @@ CREATE TABLE record_history
 	update_time datetime NOT NULL COMMENT '修改时间',
 	PRIMARY KEY (record_id)
 ) COMMENT = '记录访问历史';
+
+
+-- 用户渠道控制
+CREATE TABLE sys_user_channel
+(
+	id int(11) NOT NULL COMMENT '主键',
+	user_id int(11) NOT NULL COMMENT '用户Id',
+	user_name varchar(100) NOT NULL COMMENT '用户名称',
+	channel_id int(11) NOT NULL COMMENT '渠道Id',
+	channel_name varchar(100) NOT NULL COMMENT '渠道名称',
+	create_time timestamp NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (id)
+) COMMENT = '用户渠道控制';
 
 
 
