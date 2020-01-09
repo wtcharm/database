@@ -3,6 +3,7 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 /* Drop Tables */
 
 DROP TABLE IF EXISTS app_quick_base;
+DROP TABLE IF EXISTS quick_task_base;
 DROP TABLE IF EXISTS record_history;
 DROP TABLE IF EXISTS sys_user_channel;
 
@@ -21,6 +22,19 @@ CREATE TABLE app_quick_base
 	crate_time datetime NOT NULL COMMENT '创建时间',
 	PRIMARY KEY (id)
 ) COMMENT = '快速任务返回';
+
+
+-- 快速任务记录
+CREATE TABLE quick_task_base
+(
+	id int(20) NOT NULL COMMENT '主键',
+	task_id int(20) NOT NULL COMMENT '任务Id',
+	idfa varchar(100) NOT NULL COMMENT 'idfa',
+	status int(4) NOT NULL COMMENT '状态(1001 -通知)',
+	ip varchar(50) NOT NULL COMMENT 'ip',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (id)
+) COMMENT = '快速任务记录';
 
 
 -- 记录访问历史
@@ -45,7 +59,7 @@ CREATE TABLE sys_user_channel
 	user_name varchar(100) NOT NULL COMMENT '用户名称',
 	channel_id int(11) NOT NULL COMMENT '渠道Id',
 	channel_name varchar(100) NOT NULL COMMENT '渠道名称',
-	create_time timestamp NOT NULL COMMENT '创建时间',
+	create_time datetime NOT NULL COMMENT '创建时间',
 	PRIMARY KEY (id)
 ) COMMENT = '用户渠道控制';
 
