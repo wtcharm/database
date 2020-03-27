@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS task_income;
 DROP TABLE IF EXISTS user_order;
 DROP TABLE IF EXISTS wall_task;
 DROP TABLE IF EXISTS wall_user;
+DROP TABLE IF EXISTS wechat;
 
 
 
@@ -89,6 +90,17 @@ CREATE TABLE wall_user
 	create_time datetime NOT NULL COMMENT '创建时间',
 	PRIMARY KEY (id)
 ) COMMENT = '用户信息';
+
+
+-- 微信信息表
+CREATE TABLE wechat
+(
+	id varchar(50) NOT NULL COMMENT '主键',
+	name varchar(50) NOT NULL COMMENT '微信昵称',
+	open_id varchar(50) NOT NULL COMMENT '微信Id',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (id)
+) COMMENT = '微信信息表';
 
 
 
