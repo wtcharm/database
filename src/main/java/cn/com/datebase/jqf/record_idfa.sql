@@ -5,6 +5,7 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS app_quick_base;
 DROP TABLE IF EXISTS channel_contact;
 DROP TABLE IF EXISTS channel_idfa_ip;
+DROP TABLE IF EXISTS channel_idfa_valid;
 DROP TABLE IF EXISTS channel_mail;
 DROP TABLE IF EXISTS quick_channel;
 DROP TABLE IF EXISTS quick_task_base;
@@ -57,6 +58,19 @@ CREATE TABLE channel_idfa_ip
 	create_time datetime NOT NULL COMMENT '创建时间',
 	PRIMARY KEY (id)
 ) COMMENT = 'idfa与ip检测';
+
+
+-- 进行idfa校验
+CREATE TABLE channel_idfa_valid
+(
+	id int(11) NOT NULL COMMENT '主键',
+	idfa varchar(50) NOT NULL COMMENT 'idfa',
+	err int(3) NOT NULL COMMENT '0 正常,1 参数错误,2 非法 客户,6 服务器异常',
+	stat int(3) NOT NULL COMMENT '0 是无效，1 是有效，2 是 首次出现 ',
+	resp varchar(100) NOT NULL COMMENT '返回参数',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (id)
+) COMMENT = '进行idfa校验';
 
 
 -- 渠道邮箱
@@ -138,7 +152,7 @@ CREATE TABLE task_verify_idfa
 	task_id int(11) NOT NULL COMMENT '任务Id',
 	task_count int(11) NOT NULL COMMENT '总数',
 	pass_count int(11) NOT NULL COMMENT '通过总数',
-	create_time int(11) NOT NULL COMMENT '创建时间',
+	create_time datetime NOT NULL COMMENT '创建时间',
 	PRIMARY KEY (id)
 ) COMMENT = '任务验证';
 
