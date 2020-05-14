@@ -4,7 +4,12 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS mt_brand;
 DROP TABLE IF EXISTS mt_fashion_imgs;
+DROP TABLE IF EXISTS mt_fittings;
+DROP TABLE IF EXISTS mt_fittings_comment;
+DROP TABLE IF EXISTS mt_fittings_fashion;
+DROP TABLE IF EXISTS mt_genre;
 DROP TABLE IF EXISTS mt_goods;
+DROP TABLE IF EXISTS mt_goods_comment;
 DROP TABLE IF EXISTS mt_goods_fashion;
 DROP TABLE IF EXISTS mt_goods_info;
 DROP TABLE IF EXISTS mt_label;
@@ -12,7 +17,9 @@ DROP TABLE IF EXISTS mt_manage;
 DROP TABLE IF EXISTS mt_manage_user;
 DROP TABLE IF EXISTS mt_order;
 DROP TABLE IF EXISTS mt_order_goods;
+DROP TABLE IF EXISTS mt_order__fittings;
 DROP TABLE IF EXISTS mt_role;
+DROP TABLE IF EXISTS mt_store;
 DROP TABLE IF EXISTS mt_user;
 DROP TABLE IF EXISTS mt_user_collect;
 DROP TABLE IF EXISTS mt_user_fedex;
@@ -37,7 +44,7 @@ CREATE TABLE mt_fashion_imgs
 (
 	imgs_id int(11) NOT NULL COMMENT '主键',
 	fashion_id int(11) NOT NULL COMMENT '款式Id',
-	fashion_name varchar(50) NOT NULL COMMENT '款式名称',
+	fashion_name varchar(100) NOT NULL COMMENT '款式名称',
 	goods_diameter varchar(50) NOT NULL COMMENT '直径',
 	goods_style varchar(50) NOT NULL COMMENT '风格',
 	img_urls varchar(200) NOT NULL COMMENT '图片地址',
@@ -45,6 +52,65 @@ CREATE TABLE mt_fashion_imgs
 	dr int(5) NOT NULL COMMENT '1001-未删除，1010-已删除',
 	PRIMARY KEY (imgs_id)
 ) COMMENT = '款式图库';
+
+
+-- 配件信息
+CREATE TABLE mt_fittings
+(
+	fittings_id int(11) NOT NULL COMMENT '主键',
+	fittings_name varchar(50) NOT NULL COMMENT '配件名称',
+	brand_id bigint(11) NOT NULL COMMENT '品牌Id',
+	genre_id bigint(11) NOT NULL COMMENT '类型',
+	fittings_carousel varchar(200) NOT NULL COMMENT '轮播图',
+	fittings_code varchar(20) NOT NULL COMMENT '编号',
+	aftermarket_time varchar(10) NOT NULL COMMENT '售后时间',
+	fittings_deliver varchar(100) NOT NULL COMMENT '发货地址',
+	fittings_status int(5) NOT NULL COMMENT '上架-1001,下架-1010',
+	yield_company varchar(100) NOT NULL COMMENT '生产企业',
+	yield_company_addr varchar(255) NOT NULL COMMENT '生产商地址',
+	place_origin varchar(200) NOT NULL COMMENT '产地',
+	fittings_type int(5) NOT NULL COMMENT '标签(2001-无,2002-推荐,2003-优惠)',
+	fittings_icon varchar(100) NOT NULL COMMENT '详情图',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (fittings_id)
+) COMMENT = '配件信息';
+
+
+-- 订单配件评分
+CREATE TABLE mt_fittings_comment
+(
+	id bigint(11) NOT NULL COMMENT '主键',
+	order_fitting_id bigint NOT NULL COMMENT '订单详情id',
+	user_id bigint(11) NOT NULL COMMENT '用户Id',
+	fittings_id int(11) NOT NULL COMMENT '配件Id',
+	comment_content varchar(150) NOT NULL COMMENT '商品评分',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (id)
+) COMMENT = '订单配件评分';
+
+
+-- 配件款式
+CREATE TABLE mt_fittings_fashion
+(
+	fashion_id int(11) NOT NULL COMMENT '款式Id',
+	fittings_id int(11) NOT NULL COMMENT '配件Id',
+	fashion_name varchar(100) NOT NULL COMMENT '款式名称',
+	fashion_model varchar(100) NOT NULL COMMENT '款式型号',
+	cost_price decimal(10,4) NOT NULL COMMENT '成本价',
+	sale_price decimal(10,4) NOT NULL COMMENT '售价',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (fashion_id)
+) COMMENT = '配件款式';
+
+
+-- 分类
+CREATE TABLE mt_genre
+(
+	id int(11) NOT NULL COMMENT '主键',
+	name varchar(100) NOT NULL COMMENT '名称',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (id)
+) COMMENT = '分类';
 
 
 -- 商品
@@ -77,6 +143,19 @@ CREATE TABLE mt_goods
 	PRIMARY KEY (id),
 	UNIQUE (goods_code)
 ) COMMENT = '商品';
+
+
+-- 订单商品评分
+CREATE TABLE mt_goods_comment
+(
+	id bigint(11) NOT NULL COMMENT '主键',
+	order_goods_id bigint NOT NULL COMMENT '订单详情id',
+	user_id bigint(11) NOT NULL COMMENT '用户Id',
+	good_id int(11) NOT NULL COMMENT '商品Id',
+	comment_content varchar(150) NOT NULL COMMENT '商品评分',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (id)
+) COMMENT = '订单商品评分';
 
 
 -- 商品款式
@@ -123,7 +202,6 @@ CREATE TABLE mt_manage
 (
 	id int(11) NOT NULL COMMENT '主键',
 	name varchar(50) NOT NULL COMMENT '名称',
-	mobile varchar(50) NOT NULL COMMENT '手机号',
 	password varchar(50) NOT NULL COMMENT '密码',
 	role_id int(11) NOT NULL COMMENT '角色',
 	create_time datetime NOT NULL COMMENT '创建时间',
@@ -178,6 +256,22 @@ CREATE TABLE mt_order_goods
 ) COMMENT = '订单商品';
 
 
+-- 订单配件
+CREATE TABLE mt_order__fittings
+(
+	id bigint(11) NOT NULL COMMENT '主键',
+	order_id int(11) NOT NULL COMMENT '订单Id',
+	fittings_id int(11) NOT NULL COMMENT '配件Id',
+	fittings_name varchar(100) NOT NULL COMMENT '配件名称',
+	fashion_id int(11) NOT NULL COMMENT '款式Id',
+	fashion_name varchar(100) NOT NULL COMMENT '款式名称',
+	fittings_count int(5) NOT NULL COMMENT '数量',
+	fashion_model varchar(100) NOT NULL COMMENT '款式型号',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (id)
+) COMMENT = '订单配件';
+
+
 -- 角色
 CREATE TABLE mt_role
 (
@@ -186,6 +280,16 @@ CREATE TABLE mt_role
 	content varchar(200) NOT NULL COMMENT '权限内容',
 	PRIMARY KEY (id)
 ) COMMENT = '角色';
+
+
+-- 美瞳门店
+CREATE TABLE mt_store
+(
+	id int(11) NOT NULL COMMENT '主键',
+	name varchar(100) NOT NULL COMMENT '名称',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (id)
+) COMMENT = '美瞳门店';
 
 
 -- 用户表
