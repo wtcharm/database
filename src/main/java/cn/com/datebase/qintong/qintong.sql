@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS qt_task_click;
 DROP TABLE IF EXISTS qt_task_info;
 DROP TABLE IF EXISTS qt_up_app;
 DROP TABLE IF EXISTS qt_up_channel;
+DROP TABLE IF EXISTS qt_user_app_idfa;
 
 
 
@@ -182,6 +183,20 @@ CREATE TABLE qt_up_channel
 	update_time datetime NOT NULL COMMENT '修改时间',
 	PRIMARY KEY (up_id)
 ) COMMENT = '上游渠道';
+
+
+-- 用户历史产品留痕
+CREATE TABLE qt_user_app_idfa
+(
+	id int(11) NOT NULL COMMENT '主键',
+	consumer_id int(11) NOT NULL COMMENT '用户Id',
+	qt_task_id int(11) NOT NULL COMMENT '任务主键',
+	qt_task_info_id int(11) NOT NULL COMMENT '任务关键词主键',
+	app_id int(11) NOT NULL COMMENT '应用Id',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	update_time datetime NOT NULL COMMENT '修改时间',
+	PRIMARY KEY (id)
+) COMMENT = '用户历史产品留痕';
 
 
 
