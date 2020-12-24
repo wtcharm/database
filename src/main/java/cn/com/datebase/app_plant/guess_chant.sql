@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS chant_money;
 DROP TABLE IF EXISTS chant_music;
 DROP TABLE IF EXISTS chant_task;
 DROP TABLE IF EXISTS chant_wx;
+DROP TABLE IF EXISTS chant_wx_info;
 
 
 
@@ -18,6 +19,7 @@ CREATE TABLE chant_Income
 (
 	record_id int(11) NOT NULL COMMENT '主键',
 	user_id int(11) NOT NULL COMMENT '用户id',
+	app_id int(11) NOT NULL COMMENT '应用id',
 	Income_money decimal(10,4) NOT NULL COMMENT '收益金额',
 	money_type int(5) NOT NULL COMMENT '收益类型(3101-金钱,3110-金币)',
 	source_name varchar(100) NOT NULL COMMENT '来源名称(音乐或者任务)',
@@ -47,6 +49,7 @@ CREATE TABLE chant_money
 CREATE TABLE chant_music
 (
 	music_id int(11) NOT NULL COMMENT '音乐主键',
+	app_id int(11) NOT NULL COMMENT '应用id',
 	music_name varchar(100) NOT NULL COMMENT '音乐名称',
 	music_url varchar(100) NOT NULL COMMENT '音乐播放地址',
 	music_choice varchar(255) NOT NULL COMMENT '音乐备选(json选择项)',
@@ -61,6 +64,7 @@ CREATE TABLE chant_music
 CREATE TABLE chant_task
 (
 	task_id int(11) NOT NULL COMMENT '任务Id',
+	app_id int(11) NOT NULL COMMENT '应用id',
 	task_name varchar(100) NOT NULL COMMENT '任务名称',
 	task_limit int(5) NOT NULL COMMENT '任务上限',
 	task_money decimal(10,4) NOT NULL COMMENT '任务金额',
@@ -77,13 +81,27 @@ CREATE TABLE chant_wx
 (
 	wx_id int(11) NOT NULL COMMENT '微信主键',
 	user_id int(11) NOT NULL COMMENT '用户Id',
+	app_id int(11) NOT NULL COMMENT '应用id',
 	wx_name varchar(100) NOT NULL COMMENT '微信名称-加密',
 	wx_image varchar(100) NOT NULL COMMENT '微信图片',
+	union_id varchar(100) NOT NULL COMMENT '公众号唯一标识',
 	open_id varchar(50) NOT NULL COMMENT '微信用户主键',
 	create_time datetime NOT NULL COMMENT '创建时间',
 	update_time datetime NOT NULL COMMENT '修改时间',
-	PRIMARY KEY (wx_id)
+	PRIMARY KEY (wx_id),
+	UNIQUE (user_id)
 ) COMMENT = '微信信息';
+
+
+-- 微信公众号信息
+CREATE TABLE chant_wx_info
+(
+	union_id varchar(100) NOT NULL COMMENT '公众号唯一标识',
+	open_id varchar(100) NOT NULL COMMENT '公众号发红包id',
+	subscribe int(2) NOT NULL COMMENT '是否关注公众号',
+	nick_name varchar(100) NOT NULL COMMENT '用户的昵称',
+	PRIMARY KEY (union_id)
+) COMMENT = '微信公众号信息';
 
 
 
