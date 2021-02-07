@@ -5,7 +5,10 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS enter_variety;
 DROP TABLE IF EXISTS fodder_register;
 DROP TABLE IF EXISTS leave_enter_info;
+DROP TABLE IF EXISTS leave_enter_order;
+DROP TABLE IF EXISTS leave_enter_order_info;
 DROP TABLE IF EXISTS sickness_info;
+DROP TABLE IF EXISTS zoon_farm;
 
 
 
@@ -58,6 +61,30 @@ CREATE TABLE leave_enter_info
 ) COMMENT = '出入栏信息';
 
 
+-- 出入栏单
+CREATE TABLE leave_enter_order
+(
+	order_id int(5) NOT NULL COMMENT '出入栏订单主键',
+	order_type int(5) NOT NULL COMMENT '入栏状态(1001-入栏，1010-出栏)',
+	user_id int(11) NOT NULL COMMENT '操作人Id',
+	amount_price decimal(5,2) NOT NULL COMMENT '价格',
+	amount_number int(5) NOT NULL COMMENT '总数',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (order_id)
+) COMMENT = '出入栏单';
+
+
+-- 出入栏单详情
+CREATE TABLE leave_enter_order_info
+(
+	order_info_id int(5) NOT NULL COMMENT '详情主键',
+	order_id int(5) NOT NULL COMMENT '出入栏订单主键',
+	leaver_enter_id int(5) NOT NULL COMMENT '出入栏主键',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (order_info_id)
+) COMMENT = '出入栏单详情';
+
+
 -- 疾病信息
 CREATE TABLE sickness_info
 (
@@ -70,6 +97,18 @@ CREATE TABLE sickness_info
 	create_time datetime NOT NULL COMMENT '创建时间',
 	PRIMARY KEY (sickness_id)
 ) COMMENT = '疾病信息';
+
+
+-- 养殖场
+CREATE TABLE zoon_farm
+(
+	farm_id int(5) NOT NULL COMMENT '养殖场主键',
+	farm_type varchar(100) NOT NULL COMMENT '养殖花销类型',
+	farm_price decimal(5,2) NOT NULL COMMENT '花销价格',
+	farm_remark varchar(200) NOT NULL COMMENT '备注',
+	create_time datetime NOT NULL COMMENT '创建时间',
+	PRIMARY KEY (farm_id)
+) COMMENT = '养殖场';
 
 
 
